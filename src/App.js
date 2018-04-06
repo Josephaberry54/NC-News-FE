@@ -1,21 +1,32 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter, Router, Route, Link, Switch } from "react-router-dom";
 import "./App.css";
-import Home from "./components/Home";
 import Navigation from "./components/Navigation";
-
-// TOPICS are used in Navigation and Home so this is lowest common ancestor
+import Home from "./components/Home";
+import Topic from "./components/Topic";
+import Users from "./components/Users";
+import Article from "./components/Article";
+import CommentsPage from "./components/CommentsPage";
 
 class App extends Component {
   render() {
     return (
-      <Router>
+      <BrowserRouter>
         <div className="container">
           <Navigation />
-
-          <Route path="/" component={Home} />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/topic/:topic_id" component={Topic} />
+            <Route exact path="/users" component={Users} />
+            <Route exact path="/article/:article_id" component={Article} />
+            <Route
+              exact
+              path="/article/:article_id/comments"
+              component={CommentsPage}
+            />
+          </Switch>
         </div>
-      </Router>
+      </BrowserRouter>
     );
   }
 }

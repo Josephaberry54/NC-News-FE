@@ -1,10 +1,11 @@
 import React from "react";
-import Article from "./Article";
+import ArticleListItem from "./ArticleListItem";
 
 const Articles = () => {
   return (
-    <div className="col-sm-8">
-      <Article />
+    <div className="list-group">
+      <ArticleListItem />
+      <ArticleListItem />
     </div>
   );
 };

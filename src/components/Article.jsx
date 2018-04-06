@@ -1,16 +1,14 @@
-import React from "react";
+import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-const Article = () => {
-  return (
-    <div>
-      <h5>Article 1</h5>
-      <Link to="/articles/:article/comments">comments</Link>
-      <button className="btn btn-light" to="">
-        vote
-      </button>
-    </div>
-  );
-};
-
-export default Article;
+export default class Article extends Component {
+  render() {
+    return (
+      <div>
+        <h5>An article in full</h5>
+        <Link to="/article/:article_id/comments">comments</Link>
+        <button>Write comment</button>
+      </div>
+    );
+  }
+}

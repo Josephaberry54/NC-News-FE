@@ -1,11 +1,14 @@
 import React from "react";
+import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const Search = () => {
   return (
-    <div className="col-sm-4">
-      <h5>Search By Topics, Article name and username</h5>
-      <input type="text" />
-      <button className="btn btn-light">Search</button>
+    <div>
+      <div className="row">
+        <input className="col" type="text" />
+        <button className="col btn btn-light">Search</button>
+      </div>
+      <Link to="/topics">search all topics</Link>
     </div>
   );
 };

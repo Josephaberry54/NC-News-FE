@@ -1,13 +1,12 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-import Articles from "./Articles";
 
-export default class Topic extends Component {
+export default class TopicListItem extends Component {
   render() {
     return (
       <div>
-        <h5>A topic description</h5>
-        <Articles />
+        <h1>A topic</h1>
+        <Link to="/topic/:topic/articles">A Topic</Link>
       </div>
     );
   }

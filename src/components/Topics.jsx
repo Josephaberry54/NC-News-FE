@@ -1,10 +1,10 @@
 import React from "react";
-import Topic from "./Topic";
+import TopicListItem from "./TopicListItem";
 
 const Topics = () => {
   return (
     <div>
-      <Topic />
+      <TopicListItem />
     </div>
   );
 };

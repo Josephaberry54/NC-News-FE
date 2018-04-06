@@ -10,6 +10,19 @@ import Article from "./components/Article";
 import Comment from "./components/Comment";
 
 class App extends Component {
+  // componentDidMount() {
+  //   this.getPopularTopics();
+  // }
+
+  // getPopularTopics() {
+  //   API.fetchTopics().then(topics => {
+  //     const maxTopicsForNavBar = 5;
+  //     const navBarTopics = topics.slice(0, maxTopicsForNavBar);
+  //     const navBarTopicTitles = navBarTopics.map(topic => topic.title);
+  //     this.setState({ navBarTopicTitles });
+  //   });
+  // }
+
   render() {
     return (
       <BrowserRouter>
@@ -17,7 +30,8 @@ class App extends Component {
           <Navigation />
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/topic/:topic_id" component={Topic.Page} />
+            <Route exact path="/search" component={Home} />
+            <Route path="/topic/:topic_id" component={Topic.Page} />
             <Route exact path="/users" component={Users} />
             <Route exact path="/article/:article_id" component={Article.Page} />
             <Route

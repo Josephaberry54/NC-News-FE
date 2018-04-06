@@ -1,23 +1,21 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import API from "./Api";
+import { Link, NavLink } from "react-router-dom";
+import { fetchData } from "./Api";
 
 class Navigation extends Component {
   state = {
-    navBarTopicTitles: []
+    navBarLinkTopicNames: []
   };
 
   componentDidMount() {
-    this.getPopularTopics();
+    fetchData("topics").then(topics => this.setNavBarTopics(topics));
   }
 
-  getPopularTopics() {
-    API.fetchTopics().then(topics => {
-      const maxTopicsForNavBar = 5;
-      const navBarTopics = topics.slice(0, maxTopicsForNavBar);
-      const navBarTopicTitles = navBarTopics.map(topic => topic.title);
-      this.setState({ navBarTopicTitles });
-    });
+  setNavBarTopics(topics) {
+    const maxTopicsForNavBar = 5;
+    const navBarTopics = topics.slice(0, maxTopicsForNavBar);
+    const navBarLinkTopicNames = navBarTopics.map(topic => topic.title);
+    this.setState({ navBarLinkTopicNames });
   }
 
   render() {
@@ -28,13 +26,13 @@ class Navigation extends Component {
         </Link>
 
         <ul className="navbar-nav ml-auto">
-          {this.state.navBarTopicTitles.map(title => (
-            <NavBarTopicLink title={title} />
+          {this.state.navBarLinkTopicNames.map((title, index) => (
+            <NavBarTopicLink key={index} title={title} />
           ))}
           <li>
-            <Link className="nav-link" to="/users">
+            <NavLink className="nav-link" to="/users">
               Users
-            </Link>
+            </NavLink>
           </li>
         </ul>
       </nav>
@@ -44,9 +42,9 @@ class Navigation extends Component {
 
 const NavBarTopicLink = ({ title }) => {
   return (
-    <Link className="nav-link" to="/topic/:topic_id">
+    <NavLink to={`/topic/${title.toLowerCase()}`}>
       <li>{title}</li>
-    </Link>
+    </NavLink>
   );
 };
 

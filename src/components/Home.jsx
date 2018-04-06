@@ -7,19 +7,20 @@ import Topic from "./Topic";
 
 class Home extends Component {
   render() {
-    const { match } = this.props;
+    //    const { match } = this.props;
+
     return (
       <div className="row">
         <div className="col-sm-9">
-          <Route exact path={`${match.path}topics`} component={Topic.List} />
+          <Route path="/search" component={Topic.ListWrapper} />
           <Route
             exact
-            path={`${match.path}`}
+            path="/"
             render={() => {
               return (
                 <div>
                   <h5>popular articles</h5>
-                  <Article.List />
+                  <Article.ListWrapper />
                 </div>
               );
             }}

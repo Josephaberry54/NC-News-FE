@@ -8,7 +8,7 @@ const Search = () => {
         <input className="col" type="text" />
         <button className="col btn btn-light">Search</button>
       </div>
-      <Link to="/topics">search all topics</Link>
+      <Link to="/search">search all topics</Link>
     </div>
   );
 };

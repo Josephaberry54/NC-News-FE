@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Route } from "react-router-dom";
 
 import Search from "./Search";
-import Articles from "./Articles";
-import Topics from "./Topics";
+import Article from "./Article";
+import Topic from "./Topic";
 
 class Home extends Component {
   render() {
@@ -11,7 +11,7 @@ class Home extends Component {
     return (
       <div className="row">
         <div className="col-sm-9">
-          <Route exact path={`${match.path}topics`} component={Topics} />
+          <Route exact path={`${match.path}topics`} component={Topic.List} />
           <Route
             exact
             path={`${match.path}`}
@@ -19,7 +19,7 @@ class Home extends Component {
               return (
                 <div>
                   <h5>popular articles</h5>
-                  <Articles />
+                  <Article.List />
                 </div>
               );
             }}

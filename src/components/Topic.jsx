@@ -48,8 +48,7 @@ const Topic = {
       const { slug, title } = this.props.topic;
       return (
         <div className="list-group-item list-group-item-action d-flex">
-          <Link to={`/topic/${slug}/articles`}>{title}</Link>
-          <Link to={`/topic/${slug}/articles`}>articles</Link>
+          <Link to={`/topic/${slug}`}>{title}</Link>
         </div>
       );
     }

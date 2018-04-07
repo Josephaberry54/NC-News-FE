@@ -6,13 +6,17 @@ import Article from "./Article";
 import Topic from "./Topic";
 
 class Home extends Component {
+  componentDidMount() {
+    this.props.updateData(this.props.match.params.type || "/");
+  }
+
   render() {
     console.log(this.props);
 
     return (
       <div className="row">
         <div className="col-sm-9">
-          <Route path="/search" component={Topic.ListWrapper} />
+          <Route path="/search/:type" component={Topic.ListWrapper} />
           <Route
             exact
             path="/"

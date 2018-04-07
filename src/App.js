@@ -18,10 +18,9 @@ class App extends Component {
           <Switch>
             {/* this should be a render */}
             <Route exact path="/" component={HomeWrapper} />
-            {/* this should be inside the home */}
-            <Route exact path="/search" component={HomeWrapper} />
+            <Route exact path="/search/:type" component={HomeWrapper} />
             {/* this is correct */}
-            <Route path="/topic/:topic_id" component={Topic.Page} />
+            <Route exact path="/topic/:topic_id" component={Topic.Page} />
             <Route exact path="/users" component={Users} />
             <Route exact path="/article/:article_id" component={Article.Page} />
             {/* this should be inside the article page */}

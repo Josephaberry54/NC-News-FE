@@ -18,7 +18,7 @@ const Search = () => {
           </div>
         </div>
       </form>
-      <Link to="/search">view all topics</Link>
+      <Link to="/search/topics">view all topics</Link>
     </div>
   );
 };

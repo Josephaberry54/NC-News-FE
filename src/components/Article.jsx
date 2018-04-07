@@ -51,7 +51,7 @@ const Article = {
   },
 
   Item: function Item({ article }) {
-    const { votes, title, comments } = article;
+    const { votes, title, comments, _id } = article;
     return (
       <div className="list-group-item list-group-item-action d-flex">
         <button className="btn btn-light" to="">
@@ -61,7 +61,7 @@ const Article = {
         <button className="btn btn-light" to="">
           down
         </button>
-        <Link to="/article/:article_id">{title}</Link>
+        <Link to={`/article/${_id}`}>{title}</Link>
         <Link to="/article/:article_id/comments">comments</Link>
         <span className="badge badge-primary">{comments}</span>
         {/* <Link to={`/users/:${created_by}`}>{created_by}</Link> */}

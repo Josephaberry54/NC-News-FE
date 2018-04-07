@@ -29,7 +29,7 @@ class Navigation extends Component {
 
         <ul className="navbar-nav ml-auto">
           <li className="dropdown">
-            <NavLink to="/search" className="nav-link dropbtn">
+            <NavLink to="/search/topics" className="nav-link dropbtn">
               Popular topics
             </NavLink>
             <div className="dropdown-content">

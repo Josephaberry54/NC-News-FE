@@ -16,19 +16,21 @@ class App extends Component {
         <div className="container">
           <Navigation />
           <Switch>
-            {/* this should be a render */}
+            {/* this should be a render? */}
             <Route exact path="/" component={HomeWrapper} />
             <Route exact path="/search/:type" component={HomeWrapper} />
-            {/* this is correct */}
             <Route exact path="/topic/:topic_id" component={Topic.Page} />
-            <Route exact path="/users" component={Users} />
-            <Route exact path="/article/:article_id" component={Article.Page} />
-            {/* this should be inside the article page */}
+            <Route path="/users/:user_id" component={Users} />
             <Route
+              path="/article/:article_id"
+              component={Article.PageWrapper}
+            />
+            {/* this should be inside the article page */}
+            {/* <Route
               exact
               path="/article/:article_id/comments"
               component={Comment.Page}
-            />
+            /> */}
           </Switch>
         </div>
       </Router>

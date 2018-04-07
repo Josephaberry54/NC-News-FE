@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import { Link, Route } from "react-router-dom";
 import { fetchArticles } from "./Api";
+import Comment from "./Comment";
 
 const Article = {
   ListWrapper: class ListWrapper extends Component {
@@ -25,14 +26,54 @@ const Article = {
     }
   },
 
+  PageWrapper: class PageWrapper extends Component {
+    state = {
+      article: {}
+    };
+
+    componentDidMount() {
+      fetchArticles().then(articles => this.getArticle(articles));
+    }
+
+    getArticle(articles) {
+      const articleId = this.props.match.params.article_id;
+      const selectedArticle = articles.reduce((accum, article) => {
+        if (article._id === articleId) accum = article;
+        return accum;
+      });
+      this.setState({ article: selectedArticle });
+    }
+
+    render() {
+      return <Article.Page {...this.props} article={this.state.article} />;
+    }
+  },
+
   Page: class Page extends Component {
     render() {
-      console.log(this.props.match);
+      const {
+        match: { path, url, params },
+        article: { title, body, created_by, votes, comments, _id }
+      } = this.props;
+
+      console.log(path);
+      console.log(url);
+      console.log(params);
+
       return (
         <div>
-          <h5>An article in full</h5>
-          <Link to="/article/:article_id/comments">comments</Link>
+          <h5>{votes} votes</h5>
+          <h5>{title}</h5>
+          <p>{body}</p>
+          <Link to={`/users/${created_by}`}>created by: {created_by}</Link>
+          <Link to={`${url}/comments`}>comments:{comments}</Link>
           <button>Write comment</button>
+          <Route
+            path={`${path}/comments`}
+            render={() => {
+              return <Comment.List />;
+            }}
+          />
         </div>
       );
     }

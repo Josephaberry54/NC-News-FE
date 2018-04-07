@@ -28,11 +28,6 @@ class Navigation extends Component {
         </Link>
 
         <ul className="navbar-nav ml-auto">
-          {/* <div>
-            {this.state.navBarLinkTopicNames.map((title, index) => (
-              <NavBarTopicLink key={index} title={title} />
-            ))}
-          </div> */}
           <li className="dropdown">
             <NavLink to="/search" className="nav-link dropbtn">
               Popular topics
@@ -57,7 +52,7 @@ class Navigation extends Component {
 const NavBarTopicLink = ({ title }) => {
   return (
     <NavLink to={`/topic/${title.toLowerCase()}`}>
-      <li>{title}</li>
+      <span>{title}</span>
     </NavLink>
   );
 };

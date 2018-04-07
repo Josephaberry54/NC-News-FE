@@ -7,7 +7,7 @@ import Topic from "./Topic";
 
 class Home extends Component {
   render() {
-    //    const { match } = this.props;
+    console.log(this.props);
 
     return (
       <div className="row">

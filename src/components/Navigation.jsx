@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { fetchData } from "./Api";
+import logo from "../logo.png";
 
 class Navigation extends Component {
   state = {
@@ -22,7 +23,7 @@ class Navigation extends Component {
     return (
       <nav className="navbar navbar-light bg-light navbar-expand-lg">
         <Link className="navbar-brand" to="/">
-          NorthCoders News
+          <img src={logo} alt="logo" /> News
         </Link>
 
         <ul className="navbar-nav ml-auto">

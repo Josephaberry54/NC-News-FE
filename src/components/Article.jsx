@@ -53,7 +53,7 @@ const Article = {
     render() {
       const {
         match: { path, url, params },
-        article: { title, body, created_by, votes, comments, _id }
+        article: { title, body, created_by, votes, comments }
       } = this.props;
 
       console.log(path);
@@ -83,8 +83,8 @@ const Article = {
     render() {
       return (
         <div className="list-group">
-          {this.props.articles.map((article, index) => {
-            return <Article.Item article={article} key={index} />;
+          {this.props.articles.map(article => {
+            return <Article.Item article={article} key={article._id} />;
           })}
         </div>
       );

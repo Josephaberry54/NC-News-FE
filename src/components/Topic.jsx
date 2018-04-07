@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Article from "./Article";
-import { fetchData } from "./Api";
+import { fetchData, fetchTopicsArticles } from "./Api";
 
 const Topic = {
   ListWrapper: class ListWrapper extends Component {
@@ -9,16 +9,36 @@ const Topic = {
       topics: []
     };
 
-    componentDidMount() {
-      fetchData("topics").then(topics => this.setTopics(topics));
-    }
+    componentDidMount = () => {
+      fetchData("topics").then(topics => this.setAllTopics(topics));
+    };
 
-    setTopics(topics) {
+    setAllTopics = topics => {
       this.setState({ topics });
-    }
+    };
 
     render() {
       return <Topic.List topics={this.state.topics} />;
+    }
+  },
+
+  PageWrapper: class PageWrapper extends Component {
+    state = {
+      articles: []
+    };
+
+    componentDidMount = () => {
+      fetchTopicsArticles(`${this.props.match.url}/articles`).then(articles => {
+        return this.setTopicArticles(articles);
+      });
+    };
+
+    setTopicArticles(articles) {
+      return this.setState({ articles });
+    }
+
+    render() {
+      return <Topic.Page {...this.props} articles={this.state.articles} />;
     }
   },
 
@@ -26,8 +46,8 @@ const Topic = {
     render() {
       return (
         <div>
-          <h5>A topic description</h5>
-          <Article.ListWrapper />
+          <h5>topic title</h5>
+          <Article.List {...this.props} />
         </div>
       );
     }
@@ -45,10 +65,10 @@ const Topic = {
 
   Item: class Item extends Component {
     render() {
-      const { slug, title } = this.props.topic;
+      const { title, _id } = this.props.topic;
       return (
         <div className="list-group-item list-group-item-action d-flex">
-          <Link to={`/topic/${slug}`}>{title}</Link>
+          <Link to={`/topics/${_id}`}>{title}</Link>
         </div>
       );
     }

@@ -5,7 +5,7 @@ import logo from "../logo.png";
 
 class Navigation extends Component {
   state = {
-    navBarLinkTopicNames: []
+    navBarLinkTopics: []
   };
 
   componentDidMount() {
@@ -14,9 +14,9 @@ class Navigation extends Component {
 
   setNavBarTopics(topics) {
     const maxTopicsForNavBar = 5;
-    const navBarTopics = topics.slice(0, maxTopicsForNavBar);
-    const navBarLinkTopicNames = navBarTopics.map(topic => topic.title);
-    this.setState({ navBarLinkTopicNames });
+    const navBarLinkTopics = topics.slice(0, maxTopicsForNavBar);
+    // const navBarLinkTopicNames = navBarTopics.map(topic => topic.title);
+    this.setState({ navBarLinkTopics });
   }
 
   render() {
@@ -33,8 +33,8 @@ class Navigation extends Component {
               Popular topics
             </NavLink>
             <div className="dropdown-content">
-              {this.state.navBarLinkTopicNames.map((title, index) => (
-                <NavBarTopicLink key={index} title={title} />
+              {this.state.navBarLinkTopics.map(topic => (
+                <NavBarTopicLink key={topic._id} topic={topic} />
               ))}
             </div>
           </li>
@@ -49,9 +49,10 @@ class Navigation extends Component {
   }
 }
 
-const NavBarTopicLink = ({ title }) => {
+const NavBarTopicLink = ({ topic }) => {
+  const { title, _id } = topic;
   return (
-    <NavLink to={`/topic/${title.toLowerCase()}`}>
+    <NavLink to={`/topics/${_id}`}>
       <span>{title}</span>
     </NavLink>
   );

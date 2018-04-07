@@ -7,7 +7,6 @@ import Users from "./components/Users";
 
 import Topic from "./components/Topic";
 import Article from "./components/Article";
-import Comment from "./components/Comment";
 
 class App extends Component {
   render() {
@@ -19,18 +18,16 @@ class App extends Component {
             {/* this should be a render? */}
             <Route exact path="/" component={HomeWrapper} />
             <Route exact path="/search/:type" component={HomeWrapper} />
-            <Route exact path="/topic/:topic_id" component={Topic.Page} />
+            <Route
+              exact
+              path="/topics/:topic_id"
+              component={Topic.PageWrapper}
+            />
             <Route path="/users/:user_id" component={Users} />
             <Route
               path="/article/:article_id"
               component={Article.PageWrapper}
             />
-            {/* this should be inside the article page */}
-            {/* <Route
-              exact
-              path="/article/:article_id/comments"
-              component={Comment.Page}
-            /> */}
           </Switch>
         </div>
       </Router>

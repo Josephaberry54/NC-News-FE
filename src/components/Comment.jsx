@@ -23,7 +23,7 @@ const Comment = {
 
   Item: function Item() {
     return (
-      <div>
+      <div className="list-group-item list-group-item-action d-flex">
         <h5>A comments text</h5>
         <button className="btn btn-light">vote</button>
       </div>

@@ -11,8 +11,6 @@ class Home extends Component {
   }
 
   render() {
-    console.log(this.props);
-
     return (
       <div className="row">
         <div className="col-sm-9">

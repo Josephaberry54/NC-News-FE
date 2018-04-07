@@ -12,7 +12,6 @@ export default class HomeWrapper extends Component {
   };
 
   setData(data) {
-    console.log(data);
     this.setState({ data });
   }
 

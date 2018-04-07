@@ -23,15 +23,28 @@ class Navigation extends Component {
     return (
       <nav className="navbar navbar-light bg-light navbar-expand-lg">
         <Link className="navbar-brand" to="/">
-          <img src={logo} alt="logo" /> News
+          <img src={logo} alt="logo" className="d-inline-block align-bottom" />{" "}
+          News
         </Link>
 
         <ul className="navbar-nav ml-auto">
-          {this.state.navBarLinkTopicNames.map((title, index) => (
-            <NavBarTopicLink key={index} title={title} />
-          ))}
-          <li>
-            <NavLink className="nav-link" to="/users">
+          {/* <div>
+            {this.state.navBarLinkTopicNames.map((title, index) => (
+              <NavBarTopicLink key={index} title={title} />
+            ))}
+          </div> */}
+          <li className="dropdown">
+            <NavLink to="/search" className="nav-link dropbtn">
+              Popular topics
+            </NavLink>
+            <div className="dropdown-content">
+              {this.state.navBarLinkTopicNames.map((title, index) => (
+                <NavBarTopicLink key={index} title={title} />
+              ))}
+            </div>
+          </li>
+          <li className="dropdown">
+            <NavLink className="nav-link dropbtn" to="/users">
               Users
             </NavLink>
           </li>

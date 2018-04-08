@@ -28,7 +28,7 @@ const Article = {
 
   PageWrapper: class PageWrapper extends Component {
     state = {
-      article: {}
+      article: { created_by: {} }
     };
 
     componentDidMount() {
@@ -55,17 +55,14 @@ const Article = {
         match: { path, url, params },
         article: { title, body, created_by, votes, comments }
       } = this.props;
-
-      console.log(path);
-      console.log(url);
-      console.log(params);
-
       return (
         <div>
           <h5>{votes} votes</h5>
           <h5>{title}</h5>
           <p>{body}</p>
-          <Link to={`/users/${created_by}`}>created by: {created_by}</Link>
+          <Link to={`/users/${created_by._id}`}>
+            created by: {created_by.username}
+          </Link>
           <Link to={`${url}/comments`}>comments:{comments}</Link>
           <button>Write comment</button>
           <Route
@@ -92,7 +89,7 @@ const Article = {
   },
 
   Item: function Item({ article }) {
-    const { votes, title, comments, _id } = article;
+    const { votes, title, comments, _id, created_by } = article;
     return (
       <div className="list-group-item list-group-item-action d-flex">
         <button className="btn btn-light" to="">
@@ -103,9 +100,10 @@ const Article = {
           down
         </button>
         <Link to={`/article/${_id}`}>{title}</Link>
+        <span>created by:</span>
+        <Link to={`/users/${created_by._id}`}>{created_by.username}</Link>
         <Link to="/article/:article_id/comments">comments</Link>
         <span className="badge badge-primary">{comments}</span>
-        {/* <Link to={`/users/:${created_by}`}>{created_by}</Link> */}
       </div>
     );
   }

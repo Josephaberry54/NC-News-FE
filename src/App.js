@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Navigation from "./components/Navigation";
-import HomeWrapper from "./components/HomeWrapper";
 import Users from "./components/Users";
 
 import Topic from "./components/Topic";
@@ -15,9 +14,8 @@ class App extends Component {
         <div className="container">
           <Navigation />
           <Switch>
-            {/* this should be a render? */}
-            <Route exact path="/" component={HomeWrapper} />
-            <Route exact path="/search/:type" component={HomeWrapper} />
+            <Route exact path="/" component={Article.ListWrapper} />
+            <Route exact path="/search/:type" component={Topic.ListWrapper} />
             <Route
               exact
               path="/topics/:topic_id"

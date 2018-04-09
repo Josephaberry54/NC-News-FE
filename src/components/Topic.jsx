@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Article from "./Article";
+import Search from "./Search";
 import { fetchData, fetchTopicsArticles } from "./Api";
 
 const Topic = {
@@ -18,7 +19,16 @@ const Topic = {
     };
 
     render() {
-      return <Topic.List topics={this.state.topics} />;
+      return (
+        <div className="row">
+          <div className="col-sm-9">
+            <Topic.List topics={this.state.topics} />
+          </div>
+          <div className="col-sm-3">
+            <Search />
+          </div>
+        </div>
+      );
     }
   },
 

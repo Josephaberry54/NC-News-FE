@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, Route } from "react-router-dom";
 import { fetchArticles, putVoteOnArticle } from "./Api";
 import Comment from "./Comment";
+import Search from "./Search";
 import produce from "immer";
 import PT from "prop-types";
 
@@ -17,27 +18,32 @@ const Article = {
 
     voteOnArticle = (article_id, voteDirection) => {
       putVoteOnArticle(article_id, voteDirection).then(resultArticle => {
-        this.setState(
-          produce(draft => {
-            draft.articles = draft.articles.map((article, index) => {
-              if (article._id === article_id) {
-                return resultArticle;
-              } else {
-                return article;
-              }
-            });
-          })
-        );
+        const newState = produce(this.state, draft => {
+          draft.articles = draft.articles.map(article => {
+            if (article._id === article_id) {
+              return resultArticle;
+            } else {
+              return article;
+            }
+          });
+        });
+        this.setState({ newState });
       });
     };
 
     render() {
       return (
-        <div>
-          <Article.List
-            articles={this.state.articles}
-            voteOnArticle={this.voteOnArticle}
-          />
+        <div className="row">
+          <div className="col-sm-9">
+            <h5>popular articles</h5>
+            <Article.List
+              articles={this.state.articles}
+              voteOnArticle={this.voteOnArticle}
+            />
+          </div>
+          <div className="col-sm-3">
+            <Search />
+          </div>
         </div>
       );
     }
@@ -113,19 +119,6 @@ const Article = {
   },
 
   Item: class Item extends Component {
-    state = {
-      article: this.props.article
-    };
-
-    // static getDerivedStateFromProps(nextProps, prevState) {
-    //   if (nextProps.votes !== prevState.votes) {
-    //     return {
-    //       votes: nextProps.votes
-    //     };
-    //   }
-    //   return null;
-    // }
-
     handleClick = e => {
       const { article: { _id }, voteOnArticle } = this.props;
       let voteDirection;
@@ -141,9 +134,8 @@ const Article = {
         _id: article_id,
         created_by,
         votes
-      } = this.state.article;
-      if (!this.state.article.created_by)
-        console.log(this.state.article.article);
+      } = this.props.article;
+
       const ID = created_by._id;
       return (
         <div className="list-group-item list-group-item-action d-flex">

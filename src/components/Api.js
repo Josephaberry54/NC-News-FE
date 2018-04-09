@@ -17,9 +17,11 @@ const API = {
     return axios.get(`${SERVER_URL}/${path}`).then(({ data }) => data[path]);
   },
 
-  putVoteOnArticle: function(path) {
+  putVoteOnArticle: function(article_id, voteDirection) {
     //path should be articles/:articles_id?vote=up
-    return axios.put(`${SERVER_URL}/articles/${path}`).then(console.log);
+    return axios
+      .put(`${SERVER_URL}/articles/${article_id}?vote=${voteDirection}`)
+      .then(({ data }) => data);
   }
 };
 

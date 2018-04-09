@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Link, Route } from "react-router-dom";
 import { fetchArticles, putVoteOnArticle } from "./Api";
 import Comment from "./Comment";
+import produce from "immer";
+import PT from "prop-types";
 
 const Article = {
   ListWrapper: class ListWrapper extends Component {
@@ -10,15 +12,23 @@ const Article = {
     };
 
     componentDidMount() {
-      fetchArticles().then(articles => this.setArticlesInState(articles));
+      fetchArticles().then(articles => this.setState({ articles }));
     }
 
-    setArticlesInState(articles) {
-      this.setState({ articles });
-    }
-
-    voteOnArticle = path => {
-      putVoteOnArticle(path);
+    voteOnArticle = (article_id, voteDirection) => {
+      putVoteOnArticle(article_id, voteDirection).then(resultArticle => {
+        this.setState(
+          produce(draft => {
+            draft.articles = draft.articles.map((article, index) => {
+              if (article._id === article_id) {
+                return resultArticle;
+              } else {
+                return article;
+              }
+            });
+          })
+        );
+      });
     };
 
     render() {
@@ -88,7 +98,7 @@ const Article = {
       const { articles, voteOnArticle } = this.props;
       return (
         <div className="list-group">
-          {articles.map(article => {
+          {articles.map((article, index) => {
             return (
               <Article.Item
                 article={article}
@@ -102,34 +112,84 @@ const Article = {
     }
   },
 
-  Item: function Item({ article, voteOnArticle }) {
-    const { votes, title, comments, _id, created_by } = article;
+  Item: class Item extends Component {
+    state = {
+      article: this.props.article
+    };
 
-    function handleClick(e) {
+    // static getDerivedStateFromProps(nextProps, prevState) {
+    //   if (nextProps.votes !== prevState.votes) {
+    //     return {
+    //       votes: nextProps.votes
+    //     };
+    //   }
+    //   return null;
+    // }
+
+    handleClick = e => {
+      const { article: { _id }, voteOnArticle } = this.props;
       let voteDirection;
-      if (e.target.className.includes("voteUp"))
-        voteDirection = `${_id}?vote=up`;
-      if (e.target.className.includes("voteDown"))
-        voteDirection = `${_id}?vote=down`;
-      voteOnArticle(voteDirection);
-    }
+      if (e.target.className.includes("voteUp")) voteDirection = "up";
+      if (e.target.className.includes("voteDown")) voteDirection = "down";
+      voteOnArticle(_id, voteDirection);
+    };
 
-    return (
-      <div className="list-group-item list-group-item-action d-flex">
-        <button className="voteUp btn btn-light" onClick={handleClick}>
-          up
-        </button>
-        <span>{votes}</span>
-        <button className="voteDown btn btn-light" onClick={handleClick}>
-          down
-        </button>
-        <Link to={`/article/${_id}`}>{title}</Link>
-        <span>created by:</span>
-        <Link to={`/users/${created_by._id}`}>{created_by.username}</Link>
-        <Link to="/article/:article_id/comments">comments</Link>
-        <span className="badge badge-primary">{comments}</span>
-      </div>
-    );
+    render() {
+      const {
+        title,
+        comments,
+        _id: article_id,
+        created_by,
+        votes
+      } = this.state.article;
+      if (!this.state.article.created_by)
+        console.log(this.state.article.article);
+      const ID = created_by._id;
+      return (
+        <div className="list-group-item list-group-item-action d-flex">
+          <button className="voteUp btn btn-light" onClick={this.handleClick}>
+            up
+          </button>
+          <span>{votes}</span>
+          <button className="voteDown btn btn-light" onClick={this.handleClick}>
+            down
+          </button>
+          <Link to={`/article/${article_id}`}>{title}</Link>
+          <span>created by:</span>
+          <Link to={`/users/${ID}`}>{created_by.username}</Link>
+          <Link to="/article/:article_id/comments">comments</Link>
+          <span className="badge badge-primary">{comments}</span>
+        </div>
+      );
+    }
+  }
+};
+
+Article.List.propTypes = {
+  articles: PT.array
+};
+Article.Item.propTypes = {
+  article: PT.object
+};
+
+Article.List.defaultProps = {
+  articles: [
+    {
+      _id: "",
+      title: "",
+      comments: 0,
+      created_by: {},
+      votes: 0
+    }
+  ]
+};
+Article.Item.defaultProps = {
+  article: {
+    _id: "",
+    title: "",
+    comments: 0,
+    created_by: {},
+    votes: 0
   }
 };
 

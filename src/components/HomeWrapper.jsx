@@ -8,12 +8,8 @@ export default class HomeWrapper extends Component {
   };
 
   updateData = path => {
-    fetchData(path).then(data => this.setData({ data }));
+    fetchData(path).then(data => this.setState({ data }));
   };
-
-  setData(data) {
-    this.setState({ data });
-  }
 
   render() {
     return (

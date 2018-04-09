@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link, Route } from "react-router-dom";
-import { fetchArticles } from "./Api";
+import { fetchArticles, putVoteOnArticle } from "./Api";
 import Comment from "./Comment";
 
 const Article = {
@@ -17,10 +17,17 @@ const Article = {
       this.setState({ articles });
     }
 
+    voteOnArticle = path => {
+      putVoteOnArticle(path);
+    };
+
     render() {
       return (
         <div>
-          <Article.List articles={this.state.articles} />
+          <Article.List
+            articles={this.state.articles}
+            voteOnArticle={this.voteOnArticle}
+          />
         </div>
       );
     }
@@ -78,25 +85,42 @@ const Article = {
 
   List: class List extends Component {
     render() {
+      const { articles, voteOnArticle } = this.props;
       return (
         <div className="list-group">
-          {this.props.articles.map(article => {
-            return <Article.Item article={article} key={article._id} />;
+          {articles.map(article => {
+            return (
+              <Article.Item
+                article={article}
+                key={article._id}
+                voteOnArticle={voteOnArticle}
+              />
+            );
           })}
         </div>
       );
     }
   },
 
-  Item: function Item({ article }) {
+  Item: function Item({ article, voteOnArticle }) {
     const { votes, title, comments, _id, created_by } = article;
+
+    function handleClick(e) {
+      let voteDirection;
+      if (e.target.className.includes("voteUp"))
+        voteDirection = `${_id}?vote=up`;
+      if (e.target.className.includes("voteDown"))
+        voteDirection = `${_id}?vote=down`;
+      voteOnArticle(voteDirection);
+    }
+
     return (
       <div className="list-group-item list-group-item-action d-flex">
-        <button className="btn btn-light" to="">
+        <button className="voteUp btn btn-light" onClick={handleClick}>
           up
         </button>
         <span>{votes}</span>
-        <button className="btn btn-light" to="">
+        <button className="voteDown btn btn-light" onClick={handleClick}>
           down
         </button>
         <Link to={`/article/${_id}`}>{title}</Link>

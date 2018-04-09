@@ -15,6 +15,11 @@ const API = {
 
   fetchData: function(path) {
     return axios.get(`${SERVER_URL}/${path}`).then(({ data }) => data[path]);
+  },
+
+  putVoteOnArticle: function(path) {
+    //path should be articles/:articles_id?vote=up
+    return axios.put(`${SERVER_URL}/articles/${path}`).then(console.log);
   }
 };
 

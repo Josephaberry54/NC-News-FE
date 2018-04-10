@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, Route } from "react-router-dom";
 import { fetchArticles, putVoteOnArticle } from "./Api";
+import { voteOnArticle } from "./utils";
 import Comment from "./Comment";
 import Search from "./Search";
 import produce from "immer";
@@ -18,6 +19,7 @@ const Article = {
 
     voteOnArticle = (article_id, voteDirection) => {
       putVoteOnArticle(article_id, voteDirection).then(resultArticle => {
+        resultArticle.votedOn = true;
         const newState = produce(this.state, draft => {
           draft.articles = draft.articles.map(article => {
             if (article._id === article_id) {
@@ -27,7 +29,7 @@ const Article = {
             }
           });
         });
-        this.setState({ newState });
+        this.setState(newState);
       });
     };
 
@@ -133,17 +135,27 @@ const Article = {
         comments,
         _id: article_id,
         created_by,
-        votes
+        votes,
+        votedOn
       } = this.props.article;
 
+      console.log(votedOn);
       const ID = created_by._id;
       return (
         <div className="list-group-item list-group-item-action d-flex">
-          <button className="voteUp btn btn-light" onClick={this.handleClick}>
+          <button
+            disabled={votedOn}
+            className="voteUp btn btn-light"
+            onClick={this.handleClick}
+          >
             up
           </button>
           <span>{votes}</span>
-          <button className="voteDown btn btn-light" onClick={this.handleClick}>
+          <button
+            disabled={votedOn}
+            className="voteDown btn btn-light"
+            onClick={this.handleClick}
+          >
             down
           </button>
           <Link to={`/article/${article_id}`}>{title}</Link>

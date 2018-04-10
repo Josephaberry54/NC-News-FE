@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Article from "./Article";
 import Search from "./Search";
-import { fetchData, fetchTopicsArticles } from "./Api";
+import { fetchData, fetchTopicsArticles, putVoteOnArticle } from "./Api";
+import produce from "immer";
 
 const Topic = {
   ListWrapper: class ListWrapper extends Component {
@@ -47,17 +48,44 @@ const Topic = {
       return this.setState({ articles });
     }
 
+    voteOnArticle = (article_id, voteDirection) => {
+      putVoteOnArticle(article_id, voteDirection).then(resultArticle => {
+        resultArticle.votedOn = true;
+        const newState = produce(this.state, draft => {
+          draft.articles = draft.articles.map(article => {
+            if (article._id === article_id) {
+              return resultArticle;
+            } else {
+              return article;
+            }
+          });
+        });
+        this.setState(newState);
+      });
+    };
+
     render() {
-      return <Topic.Page {...this.props} articles={this.state.articles} />;
+      return (
+        <Topic.Page
+          {...this.props}
+          articles={this.state.articles}
+          voteOnArticle={this.voteOnArticle}
+        />
+      );
     }
   },
 
   Page: class Page extends Component {
     render() {
+      const { articles, voteOnArticle } = this.props;
       return (
         <div>
           <h5>topic title</h5>
-          <Article.List {...this.props} />
+          <Article.List
+            {...this.props}
+            articles={articles}
+            voteOnArticle={voteOnArticle}
+          />
         </div>
       );
     }

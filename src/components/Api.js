@@ -22,6 +22,13 @@ const API = {
     return axios
       .put(`${SERVER_URL}/articles/${article_id}?vote=${voteDirection}`)
       .then(({ data }) => data);
+  },
+
+  fetchComments: function(articleId) {
+    return axios
+      .get(`${SERVER_URL}/articles/${articleId}/comments`)
+      .then(({ data }) => data.comments);
+    // path should be articles/:article_id/comments
   }
 };
 

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link, Route } from "react-router-dom";
-import { fetchArticles, putVoteOnArticle } from "./Api";
+import { fetchArticles, putVoteOnArticle, fetchComments } from "./Api";
 import Comment from "./Comment";
 import Search from "./Search";
 import produce from "immer";
@@ -52,11 +52,15 @@ const Article = {
 
   PageWrapper: class PageWrapper extends Component {
     state = {
-      article: { created_by: {} }
+      article: { created_by: {} },
+      articleComments: []
     };
 
     componentDidMount() {
       fetchArticles().then(articles => this.getArticle(articles));
+      fetchComments(this.props.match.params.article_id).then(articleComments =>
+        this.setState({ articleComments })
+      );
     }
 
     getArticle(articles) {
@@ -69,7 +73,14 @@ const Article = {
     }
 
     render() {
-      return <Article.Page {...this.props} article={this.state.article} />;
+      const { article, articleComments } = this.state;
+      return (
+        <Article.Page
+          {...this.props}
+          article={article}
+          articleComments={articleComments}
+        />
+      );
     }
   },
 
@@ -77,7 +88,8 @@ const Article = {
     render() {
       const {
         match: { path, url, params },
-        article: { title, body, created_by, votes, comments }
+        article: { title, body, created_by, votes, comments },
+        articleComments
       } = this.props;
       return (
         <div>
@@ -92,7 +104,7 @@ const Article = {
           <Route
             path={`${path}/comments`}
             render={() => {
-              return <Comment.List />;
+              return <Comment.List articleComments={articleComments} />;
             }}
           />
         </div>

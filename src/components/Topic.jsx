@@ -35,17 +35,21 @@ const Topic = {
 
   PageWrapper: class PageWrapper extends Component {
     state = {
-      articles: []
+      articles: [],
+      topicId: this.props.match.params.topic_id
     };
 
     componentDidMount = () => {
-      fetchTopicsArticles(`${this.props.match.url}/articles`).then(articles => {
-        return this.setTopicArticles(articles);
-      });
+      fetchTopicsArticles(`/topics/${this.state.topicId}/articles`).then(
+        articles => this.setState({ articles })
+      );
     };
 
-    setTopicArticles(articles) {
-      return this.setState({ articles });
+    static getDerivedStateFromProps(nextProps, prevState) {
+      if (nextProps.match.params.topic_id !== prevState.topicId) {
+        return { topicId: nextProps.match.params.topic_id };
+      }
+      return null;
     }
 
     voteOnArticle = (article_id, voteDirection) => {
@@ -70,6 +74,8 @@ const Topic = {
           {...this.props}
           articles={this.state.articles}
           voteOnArticle={this.voteOnArticle}
+          topicId={this.state.topicId}
+          key={this.props.match.params.url}
         />
       );
     }
@@ -77,10 +83,16 @@ const Topic = {
 
   Page: class Page extends Component {
     render() {
-      const { articles, voteOnArticle } = this.props;
+      const { articles, voteOnArticle, topicId } = this.props;
+      const title = articles[0]
+        ? articles[0].belongs_to.title
+        : "no available articles for this topic!";
       return (
         <div>
-          <h5>topic title</h5>
+          <h5>
+            {title}
+            {topicId}
+          </h5>
           <Article.List
             {...this.props}
             articles={articles}
@@ -95,7 +107,7 @@ const Topic = {
     return (
       <div className="list-group">
         {topics.map((topic, index) => {
-          return <Topic.Item topic={topic} key={index} />;
+          return <Topic.Item topic={topic} key={topic._id} />;
         })}
       </div>
     );

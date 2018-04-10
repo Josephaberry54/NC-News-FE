@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Link, Route } from "react-router-dom";
 import { fetchArticles, putVoteOnArticle } from "./Api";
-import { voteOnArticle } from "./utils";
 import Comment from "./Comment";
 import Search from "./Search";
 import produce from "immer";
@@ -139,7 +138,6 @@ const Article = {
         votedOn
       } = this.props.article;
 
-      console.log(votedOn);
       const ID = created_by._id;
       return (
         <div className="list-group-item list-group-item-action d-flex">

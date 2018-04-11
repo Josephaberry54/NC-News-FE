@@ -21,7 +21,8 @@ class App extends Component {
               path="/topics/:topic_id"
               component={Topic.PageWrapper}
             />
-            <Route path="/users/:user_id" component={Users} />
+            <Route exact path="/users" component={Users.ListWrapper} />
+            <Route path="/users/:user_id" component={Users.Page} />
             <Route
               path="/article/:article_id"
               component={Article.PageWrapper}

@@ -29,6 +29,16 @@ const API = {
       .get(`${SERVER_URL}/articles/${articleId}/comments`)
       .then(({ data }) => data.comments);
     // path should be articles/:article_id/comments
+  },
+
+  fetchAllUsers: function() {
+    return axios.get(`${SERVER_URL}/users/all`).then(({ data }) => data.users);
+  },
+
+  fetchUserById: function(userId) {
+    return axios
+      .get(`${SERVER_URL}/users/${userId}`)
+      .then(({ data }) => data.user);
   }
 };
 

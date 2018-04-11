@@ -87,7 +87,7 @@ const Article = {
   Page: class Page extends Component {
     render() {
       const {
-        match: { path, url, params },
+        match: { path, url },
         article: { title, body, created_by, votes, comments },
         articleComments
       } = this.props;

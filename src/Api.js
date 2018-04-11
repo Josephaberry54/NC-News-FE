@@ -24,6 +24,12 @@ const API = {
       .then(({ data }) => data);
   },
 
+  putVoteOnComment: function(comment_id, voteDirection) {
+    return axios
+      .put(`${SERVER_URL}/comments/${comment_id}?vote=${voteDirection}`)
+      .then(({ data }) => data);
+  },
+
   fetchComments: function(articleId) {
     return axios
       .get(`${SERVER_URL}/articles/${articleId}/comments`)

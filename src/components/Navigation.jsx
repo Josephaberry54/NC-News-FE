@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { fetchData } from "./Api";
+import { fetchData } from "../Api";
 import logo from "../logo.png";
 
 class Navigation extends Component {

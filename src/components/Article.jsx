@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link, Route } from "react-router-dom";
-import { fetchArticles, putVoteOnArticle, fetchComments } from "./Api";
+import { fetchArticles, putVoteOnArticle, fetchComments } from "../Api";
 import Comment from "./Comment";
 import Search from "./Search";
 import produce from "immer";

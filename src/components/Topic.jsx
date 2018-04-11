@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import Article from "./Article";
 import Search from "./Search";
-import { fetchData, fetchTopicsArticles, putVoteOnArticle } from "./Api";
+import { fetchData, fetchTopicsArticles, putVoteOnArticle } from "../Api";
 import produce from "immer";
 
 const Topic = {

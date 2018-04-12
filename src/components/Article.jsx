@@ -40,18 +40,19 @@ const Article = {
 
     render() {
       return (
-        <div className="row">
-          <div className="col-sm-9">
-            <h5>popular articles</h5>
+        <React.Fragment>
+          <div className="container">
+            <Search />
+          </div>
+
+          <div className="container">
+            <h3>Popular Articles</h3>
             <Article.List
               articles={this.state.articles}
               voteOnArticle={this.voteOnArticle}
             />
           </div>
-          <div className="col-sm-3">
-            <Search />
-          </div>
-        </div>
+        </React.Fragment>
       );
     }
   },
@@ -133,48 +134,66 @@ const Article = {
     render() {
       const {
         match: { path, url },
-        article: { title, body, created_by, votes, comments },
+        article: { title, body, created_by, votes, comments, votedOn },
         articleComments,
         voteOnComment
       } = this.props;
       return (
-        <div>
-          <h5>{votes} votes</h5>
-          <h5>{title}</h5>
-          <p>{body}</p>
-          <Link to={`/users/${created_by._id}`}>
-            created by: {created_by.username}
-          </Link>
-          <Link to={`${url}/comments`}>comments:{comments}</Link>
-
+        <div className="row">
+          <div className="col-2">
+            <div>
+              <button
+                disabled={votedOn}
+                className="voteUp btn btn-light btn-outline-secondary btn-block"
+                onClick={this.handleClick}
+              >
+                <i class="fas fa-chevron-up" />
+              </button>
+            </div>
+            <div className="text-center">
+              <span>{votes}</span>
+            </div>
+            <div>
+              <button
+                disabled={votedOn}
+                className="voteDown btn btn-light btn-outline-secondary btn-block"
+                onClick={this.handleClick}
+              >
+                <i class="fas fa-chevron-down" />
+              </button>
+            </div>
+          </div>
+          <div className="col-10">
+            <h5>{title}</h5>
+            <p>{body}</p>
+            <Link to={`/users/${created_by._id}`}>
+              created by: {created_by.username}
+            </Link>
+            <Link to={`${url}/comments`}>comments:{comments}</Link>
+          </div>
+          <div className="container">
+            <div className="row">
+              <div className="input-group mb-3">
+                <input
+                  className="form-control"
+                  onChange={this.handleChange}
+                  placeholder="Comment here..."
+                  type="text"
+                  value={this.state.newComment}
+                />
+                <button
+                  onClick={() => this.handleClick(this.state, this.props)}
+                >
+                  submit
+                </button>
+              </div>
+            </div>
+          </div>
           <Route
             path={`${path}/comments`}
             render={() => {
               return (
                 <React.Fragment>
-                  <Link to={`${url}/comments/write`}>write comment</Link>
-                  <Route
-                    path={`${path}/comments/write`}
-                    render={() => {
-                      return (
-                        <div>
-                          <input
-                            onChange={this.handleChange}
-                            placeholder="comment here"
-                            type="text"
-                            value={this.state.newComment}
-                          />
-                          <button
-                            onClick={() =>
-                              this.handleClick(this.state, this.props)
-                            }
-                          >
-                            submit
-                          </button>
-                        </div>
-                      );
-                    }}
-                  />
                   <Comment.List
                     articleComments={articleComments}
                     voteOnComment={voteOnComment}
@@ -228,27 +247,48 @@ const Article = {
 
       const ID = created_by._id;
       return (
-        <div className="list-group-item list-group-item-action d-flex">
-          <button
-            disabled={votedOn}
-            className="voteUp btn btn-light"
-            onClick={this.handleClick}
-          >
-            up
-          </button>
-          <span>{votes}</span>
-          <button
-            disabled={votedOn}
-            className="voteDown btn btn-light"
-            onClick={this.handleClick}
-          >
-            down
-          </button>
-          <Link to={`/article/${article_id}`}>{title}</Link>
-          <span>created by:</span>
-          <Link to={`/users/${ID}`}>{created_by.username}</Link>
-          <Link to={`/article/${article_id}/comments`}>comments</Link>
-          <span className="badge badge-primary">{comments}</span>
+        <div className="list-group-item list-group-item-action d-flex row py1 ">
+          <div className="col-2">
+            <div>
+              <button
+                disabled={votedOn}
+                className="voteUp btn btn-light btn-outline-secondary btn-block"
+                onClick={this.handleClick}
+              >
+                <i class="fas fa-chevron-up" />
+              </button>
+            </div>
+            <div className="text-center">
+              <span>{votes}</span>
+            </div>
+            <div>
+              <button
+                disabled={votedOn}
+                className="voteDown btn btn-light btn-outline-secondary btn-block"
+                onClick={this.handleClick}
+              >
+                <i class="fas fa-chevron-down" />
+              </button>
+            </div>
+          </div>
+          <div className="col-10">
+            <div className="row">
+              <div className="col-12">
+                <Link to={`/article/${article_id}`}>{title}</Link>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-6">
+                <span>created by:{"  "} </span>
+                <Link to={`/users/${ID}`}>{created_by.username}</Link>
+              </div>
+              <div className="col-6">
+                <Link to={`/article/${article_id}/comments`}>comments</Link>
+                {"  "}
+                <span className="badge badge-primary">{comments}</span>
+              </div>
+            </div>
+          </div>
         </div>
       );
     }

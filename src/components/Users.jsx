@@ -13,9 +13,8 @@ const Users = {
     }
 
     render() {
-      console.log(this.state.users);
       return (
-        <div>
+        <div className="container-fluid">
           <Users.List users={this.state.users} />
         </div>
       );
@@ -38,15 +37,27 @@ const Users = {
     render() {
       const { avatar_url, name, username, _id } = this.props.user;
       return (
-        <div className="list-group-item list-group-item-action d-flex">
-          <div className="card">
-            <img className="card-img-top" src={avatar_url} alt={username} />
-            <div className="card-body">
-              <h5 className="card-title">{name}</h5>
-              <p className="card-text">{username}</p>
+        <div className="list-group-item list-group-item-action d-flex container-fluid">
+          <div className="row">
+            <div className="col-6 w-100">
+              <img
+                className="img-thumbnail float-left"
+                width="200px"
+                height="auto"
+                src={avatar_url}
+                alt={username}
+              />
+            </div>
+            <div className="col-6">
+              <div className="card">
+                <div className="card-body">
+                  <h5 className="card-title">{name}</h5>
+                  <p className="card-text">{username}</p>
+                  <Link to={`/users/${_id}`}>go to page</Link>
+                </div>
+              </div>
             </div>
           </div>
-          <Link to={`/users/${_id}`}>go to page</Link>
         </div>
       );
     }
@@ -65,12 +76,24 @@ const Users = {
       const { avatar_url, name, username } = this.state.user;
 
       return (
-        <div>
-          <div className="card">
-            <img className="card-img-top" src={avatar_url} alt={username} />
-            <div className="card-body">
-              <h5 className="card-title">{name}</h5>
-              <p className="card-text">{username}</p>
+        <div className="container">
+          <div className="row">
+            <div className="col-3">
+              <img
+                className="img-thumbnail"
+                width="200px"
+                height="auto"
+                src={avatar_url}
+                alt={username}
+              />
+            </div>
+            <div className=" col-9">
+              <div>
+                <div className="card-body">
+                  <h5 className="card-title">{name}</h5>
+                  <p className="card-text">{username}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

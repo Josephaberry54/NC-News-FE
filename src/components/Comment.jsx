@@ -14,7 +14,7 @@ const Comment = {
 
   List: function List({ articleComments, voteOnComment }) {
     return (
-      <div>
+      <div className="container">
         {articleComments.map(comment => {
           return (
             <Comment.Item
@@ -40,24 +40,48 @@ const Comment = {
     const { body, created_at, created_by, votes, _id, votedOn } = comment;
     return (
       <div className="list-group-item list-group-item-action d-flex" key={_id}>
-        <button
-          disabled={votedOn}
-          className="voteUp btn btn-light"
-          onClick={handleClick}
-        >
-          up
-        </button>
-        <span>{votes}</span>
-        <button
-          disabled={votedOn}
-          className="voteDown btn btn-light"
-          onClick={handleClick}
-        >
-          down
-        </button>
-        <h5>{body}</h5>
-        <h5>created on: {new Date(created_at).toDateString()}</h5>
-        <h5>created by: {created_by.username}</h5>
+        <div className="col-2">
+          <div className="row">
+            <button
+              disabled={votedOn}
+              className="voteUp btn btn-light btn-outline-secondary btn-block"
+              onClick={handleClick}
+            >
+              <i class="fas fa-chevron-up" />
+            </button>
+          </div>
+          <div className="text-center">
+            <span className="text-center">{votes}</span>
+          </div>
+          <div className="row">
+            <button
+              disabled={votedOn}
+              className="voteDown btn btn-light btn-outline-secondary btn-block"
+              onClick={handleClick}
+            >
+              <i class="fas fa-chevron-down" />
+            </button>
+          </div>
+        </div>
+        <div className="col-10">
+          <div className="row">
+            <div className="col-12">
+              <h5>{body}</h5>
+            </div>
+          </div>
+          <div className="row">
+            <div className="col-6">
+              <h5>
+                created on:{"  "} {new Date(created_at).toDateString()}
+              </h5>
+            </div>
+            <div className="col-6">
+              <h5>
+                created by:{"  "} {created_by.username}
+              </h5>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

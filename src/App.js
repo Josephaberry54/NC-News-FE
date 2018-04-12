@@ -11,7 +11,7 @@ class App extends Component {
   render() {
     return (
       <Router>
-        <div className="container">
+        <div>
           <Navigation />
           <Switch>
             <Route exact path="/" component={Article.ListWrapper} />

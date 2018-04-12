@@ -21,28 +21,23 @@ class Navigation extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-light bg-light navbar-expand-lg">
-        <Link className="navbar-brand" to="/">
-          Northcoders News
-        </Link>
-
-        <ul className="navbar-nav ml-auto">
-          <li className="dropdown">
-            <NavLink to="/search/topics" className="nav-link dropbtn">
-              Popular topics
-            </NavLink>
-            <div className="dropdown-content">
-              {this.state.navBarLinkTopics.map(topic => (
-                <NavBarTopicLink key={topic._id} topic={topic} />
-              ))}
-            </div>
-          </li>
-          <li className="dropdown">
-            <NavLink className="nav-link dropbtn" to="/users">
-              Users
-            </NavLink>
-          </li>
-        </ul>
+      <nav className="navbar navbar-inverse bg-inverse  container-fluid">
+        <div className="row">
+          <Link className="navbar-brand text-info" to="/">
+            <h1 className="display-1">Northcoders News</h1>
+          </Link>
+        </div>
+        <div className="row justify-content-end ">
+          <NavLink to="/search/topics" className="nav-link text-white">
+            All topics
+          </NavLink>
+          {this.state.navBarLinkTopics.map(topic => (
+            <NavBarTopicLink key={topic._id} topic={topic} />
+          ))}
+          <NavLink className="nav-link" to="/users">
+            Users
+          </NavLink>
+        </div>
       </nav>
     );
   }
@@ -51,8 +46,8 @@ class Navigation extends Component {
 const NavBarTopicLink = ({ topic }) => {
   const { title, _id } = topic;
   return (
-    <NavLink to={`/topics/${_id}`}>
-      <span>{title}</span>
+    <NavLink className="nav-link" to={`/topics/${_id}`}>
+      {title}
     </NavLink>
   );
 };

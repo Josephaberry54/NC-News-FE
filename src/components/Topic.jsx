@@ -21,14 +21,12 @@ const Topic = {
 
     render() {
       return (
-        <div className="row">
-          <div className="col-sm-9">
+        <React.Fragment>
+          <div className="container">
+            <h3>All Topics</h3>
             <Topic.List topics={this.state.topics} />
           </div>
-          <div className="col-sm-3">
-            <Search />
-          </div>
-        </div>
+        </React.Fragment>
       );
     }
   },
@@ -88,11 +86,11 @@ const Topic = {
         ? articles[0].belongs_to.title
         : "no available articles for this topic!";
       return (
-        <div>
-          <h5>
+        <div className="container">
+          <h3>
+            All articles for: {"  "}
             {title}
-            {topicId}
-          </h5>
+          </h3>
           <Article.List
             {...this.props}
             articles={articles}
@@ -117,7 +115,7 @@ const Topic = {
     render() {
       const { title, _id } = this.props.topic;
       return (
-        <div className="list-group-item list-group-item-action d-flex">
+        <div className="list-group-item list-group-item-action d-flex row">
           <Link to={`/topics/${_id}`}>{title}</Link>
         </div>
       );

@@ -1,6 +1,12 @@
 import React, { Component } from "react";
 import { Link, Route } from "react-router-dom";
-import { fetchArticles, putVoteOnArticle, fetchComments } from "../Api";
+import {
+  fetchArticles,
+  putVoteOnArticle,
+  fetchComments,
+  putVoteOnComment,
+  postCommentToArticle
+} from "../Api";
 import Comment from "./Comment";
 import Search from "./Search";
 import produce from "immer";
@@ -72,6 +78,22 @@ const Article = {
       this.setState({ article: selectedArticle });
     }
 
+    voteOnComment = (comment_id, voteDirection) => {
+      putVoteOnComment(comment_id, voteDirection).then(resultComment => {
+        resultComment.votedOn = true;
+        const newState = produce(this.state, draft => {
+          draft.articleComments = draft.articleComments.map(comment => {
+            if (comment._id === comment_id) {
+              return resultComment;
+            } else {
+              return comment;
+            }
+          });
+        });
+        this.setState(newState);
+      });
+    };
+
     render() {
       const { article, articleComments } = this.state;
       return (
@@ -79,17 +101,41 @@ const Article = {
           {...this.props}
           article={article}
           articleComments={articleComments}
+          voteOnComment={this.voteOnComment}
         />
       );
     }
   },
 
   Page: class Page extends Component {
+    state = {
+      newComment: ""
+    };
+
+    handleChange = e => {
+      const newComment = e.target.value;
+      this.setState({ newComment });
+    };
+
+    handleClick({ newComment }, props) {
+      console.log(newComment);
+      console.log(props);
+      const { _id } = props.article;
+      const MY_USER_ID = "5aabf9e8630d476aa2c3ad9e";
+      const comment = {
+        comment: newComment,
+        belongs_to: _id,
+        created_by: MY_USER_ID
+      };
+      postCommentToArticle(_id, comment).then(comment => console.log(comment));
+    }
+
     render() {
       const {
         match: { path, url },
         article: { title, body, created_by, votes, comments },
-        articleComments
+        articleComments,
+        voteOnComment
       } = this.props;
       return (
         <div>
@@ -100,11 +146,41 @@ const Article = {
             created by: {created_by.username}
           </Link>
           <Link to={`${url}/comments`}>comments:{comments}</Link>
-          <button>Write comment</button>
+
           <Route
             path={`${path}/comments`}
             render={() => {
-              return <Comment.List articleComments={articleComments} />;
+              return (
+                <React.Fragment>
+                  <Link to={`${url}/comments/write`}>write comment</Link>
+                  <Route
+                    path={`${path}/comments/write`}
+                    render={() => {
+                      return (
+                        <div>
+                          <input
+                            onChange={this.handleChange}
+                            placeholder="comment here"
+                            type="text"
+                            value={this.state.newComment}
+                          />
+                          <button
+                            onClick={() =>
+                              this.handleClick(this.state, this.props)
+                            }
+                          >
+                            submit
+                          </button>
+                        </div>
+                      );
+                    }}
+                  />
+                  <Comment.List
+                    articleComments={articleComments}
+                    voteOnComment={voteOnComment}
+                  />
+                </React.Fragment>
+              );
             }}
           />
         </div>
@@ -171,7 +247,7 @@ const Article = {
           <Link to={`/article/${article_id}`}>{title}</Link>
           <span>created by:</span>
           <Link to={`/users/${ID}`}>{created_by.username}</Link>
-          <Link to="/article/:article_id/comments">comments</Link>
+          <Link to={`/article/${article_id}/comments`}>comments</Link>
           <span className="badge badge-primary">{comments}</span>
         </div>
       );

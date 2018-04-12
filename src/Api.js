@@ -45,6 +45,14 @@ const API = {
     return axios
       .get(`${SERVER_URL}/users/${userId}`)
       .then(({ data }) => data.user);
+  },
+
+  postCommentToArticle: function(articleId, comment) {
+    // path should be /articles/:article_id/comments
+
+    return axios
+      .post(`${SERVER_URL}/articles/${articleId}/comments`, comment)
+      .then(({ data }) => data.commentDoc);
   }
 };
 

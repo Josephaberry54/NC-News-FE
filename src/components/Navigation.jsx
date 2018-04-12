@@ -23,8 +23,7 @@ class Navigation extends Component {
     return (
       <nav className="navbar navbar-light bg-light navbar-expand-lg">
         <Link className="navbar-brand" to="/">
-          <img src={logo} alt="logo" className="d-inline-block align-bottom" />{" "}
-          News
+          Northcoders News
         </Link>
 
         <ul className="navbar-nav ml-auto">

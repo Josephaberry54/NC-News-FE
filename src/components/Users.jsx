@@ -13,6 +13,7 @@ const Users = {
     }
 
     render() {
+      console.log(this.state.users);
       return (
         <div>
           <Users.List users={this.state.users} />

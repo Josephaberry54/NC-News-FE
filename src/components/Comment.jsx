@@ -12,29 +12,49 @@ const Comment = {
     }
   },
 
-  List: function List({ articleComments }) {
-    console.log(articleComments);
+  List: function List({ articleComments, voteOnComment }) {
     return (
       <div>
         {articleComments.map(comment => {
-          return <Comment.Item key={comment._id} comment={comment} />;
+          return (
+            <Comment.Item
+              key={comment._id}
+              comment={comment}
+              voteOnComment={voteOnComment}
+            />
+          );
         })}
       </div>
     );
   },
 
-  Item: function Item({ comment }) {
-    console.log(comment);
-    const { body, created_at, created_by, votes, _id } = comment;
+  Item: function Item({ comment, voteOnComment }) {
+    function handleClick(e) {
+      const { _id } = comment;
+      let voteDirection;
+      if (e.target.className.includes("voteUp")) voteDirection = "up";
+      if (e.target.className.includes("voteDown")) voteDirection = "down";
+      voteOnComment(_id, voteDirection);
+    }
+
+    const { body, created_at, created_by, votes, _id, votedOn } = comment;
     return (
       <div className="list-group-item list-group-item-action d-flex" key={_id}>
-        {/* <button disabled={votedOn} className="voteUp btn btn-light" onClick={this.handleClick}>
+        <button
+          disabled={votedOn}
+          className="voteUp btn btn-light"
+          onClick={handleClick}
+        >
           up
-        </button> */}
+        </button>
         <span>{votes}</span>
-        {/* <button disabled={votedOn} className="voteDown btn btn-light" onClick={this.handleClick}>
+        <button
+          disabled={votedOn}
+          className="voteDown btn btn-light"
+          onClick={handleClick}
+        >
           down
-        </button> */}
+        </button>
         <h5>{body}</h5>
         <h5>created on: {new Date(created_at).toDateString()}</h5>
         <h5>created by: {created_by.username}</h5>

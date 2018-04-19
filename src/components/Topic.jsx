@@ -4,6 +4,7 @@ import Article from "./Article";
 import Search from "./Search";
 import { fetchData, fetchTopicsArticles, putVoteOnArticle } from "../Api";
 import produce from "immer";
+import PT from "prop-types";
 
 const Topic = {
   ListWrapper: class ListWrapper extends Component {
@@ -111,16 +112,28 @@ const Topic = {
     );
   },
 
-  Item: class Item extends Component {
-    render() {
-      const { title, _id } = this.props.topic;
-      return (
-        <div className="list-group-item list-group-item-action d-flex row">
-          <Link to={`/topics/${_id}`}>{title}</Link>
-        </div>
-      );
-    }
+  Item: function Item({ topic }) {
+    const { title, _id } = topic;
+    return (
+      <div className="list-group-item list-group-item-action d-flex row">
+        <Link to={`/topics/${_id}`}>{title}</Link>
+      </div>
+    );
   }
+};
+
+Topic.Page.propTypes = {
+  articles: PT.array,
+  voteOnArticle: PT.func,
+  topicId: PT.string
+};
+
+Topic.List.propTypes = {
+  topics: PT.array
+};
+
+Topic.Item.propTypes = {
+  topic: PT.object
 };
 
 export default Topic;

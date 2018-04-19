@@ -15,12 +15,26 @@ import PT from "prop-types";
 const Article = {
   ListWrapper: class ListWrapper extends Component {
     state = {
-      articles: []
+      articles: [],
+      searchInput: ""
     };
 
     componentDidMount() {
       fetchArticles().then(articles => this.setState({ articles }));
     }
+
+    submitSearchRequest = searchInput => {
+      const filteredArticles = this.state.articles.filter(article => {
+        const { title, body } = article;
+        return title.includes(searchInput) || body.includes(searchInput);
+      });
+      console.log(filteredArticles);
+      this.setState(
+        produce(draft => {
+          draft.articles = filteredArticles;
+        })
+      );
+    };
 
     voteOnArticle = (article_id, voteDirection) => {
       putVoteOnArticle(article_id, voteDirection).then(resultArticle => {
@@ -39,16 +53,18 @@ const Article = {
     };
 
     render() {
+      const { articles } = this.state;
       return (
         <React.Fragment>
           <div className="container">
-            <Search />
+            <Search submitSearchRequest={this.submitSearchRequest} />
           </div>
 
           <div className="container">
             <h3>Popular Articles</h3>
+            {!articles.length && <p>No articles to display</p>}
             <Article.List
-              articles={this.state.articles}
+              articles={articles}
               voteOnArticle={this.voteOnArticle}
             />
           </div>
@@ -88,6 +104,22 @@ const Article = {
               return resultComment;
             } else {
               return comment;
+            }
+          });
+        });
+        this.setState(newState);
+      });
+    };
+
+    voteOnArticle = (article_id, voteDirection) => {
+      putVoteOnArticle(article_id, voteDirection).then(resultArticle => {
+        resultArticle.votedOn = true;
+        const newState = produce(this.state, draft => {
+          draft.articles = draft.articles.map(article => {
+            if (article._id === article_id) {
+              return resultArticle;
+            } else {
+              return article;
             }
           });
         });
@@ -147,7 +179,7 @@ const Article = {
                 className="voteUp btn btn-light btn-outline-secondary btn-block"
                 onClick={this.handleClick}
               >
-                <i class="fas fa-chevron-up" />
+                <i className="fas fa-chevron-up" />
               </button>
             </div>
             <div className="text-center">
@@ -159,7 +191,7 @@ const Article = {
                 className="voteDown btn btn-light btn-outline-secondary btn-block"
                 onClick={this.handleClick}
               >
-                <i class="fas fa-chevron-down" />
+                <i className="fas fa-chevron-down" />
               </button>
             </div>
           </div>
@@ -255,7 +287,7 @@ const Article = {
                 className="voteUp btn btn-light btn-outline-secondary btn-block"
                 onClick={this.handleClick}
               >
-                <i class="fas fa-chevron-up" />
+                <i className="fas fa-chevron-up" />
               </button>
             </div>
             <div className="text-center">
@@ -267,7 +299,7 @@ const Article = {
                 className="voteDown btn btn-light btn-outline-secondary btn-block"
                 onClick={this.handleClick}
               >
-                <i class="fas fa-chevron-down" />
+                <i className="fas fa-chevron-down" />
               </button>
             </div>
           </div>

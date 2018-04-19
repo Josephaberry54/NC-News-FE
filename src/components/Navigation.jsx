@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { fetchData } from "../Api";
 import logo from "../logo.png";
+import PT from "prop-types";
 
 class Navigation extends Component {
   state = {
@@ -50,6 +51,10 @@ const NavBarTopicLink = ({ topic }) => {
       {title}
     </NavLink>
   );
+};
+
+NavBarTopicLink.propTypes = {
+  topic: PT.object
 };
 
 export default Navigation;

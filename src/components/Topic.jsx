@@ -44,11 +44,13 @@ const Topic = {
       );
     };
 
-    static getDerivedStateFromProps(nextProps, prevState) {
-      if (nextProps.match.params.topic_id !== prevState.topicId) {
-        return { topicId: nextProps.match.params.topic_id };
+    componentDidUpdate() {
+      if (this.state.topicId !== this.props.match.params.topic_id) {
+        this.setState({ topicId: this.props.match.params.topic_id });
+        fetchTopicsArticles(
+          `/topics/${this.props.match.params.topic_id}/articles`
+        ).then(articles => this.setState({ articles }));
       }
-      return null;
     }
 
     voteOnArticle = (article_id, voteDirection) => {
@@ -83,14 +85,15 @@ const Topic = {
   Page: class Page extends Component {
     render() {
       const { articles, voteOnArticle, topicId } = this.props;
-      const title = articles[0]
-        ? articles[0].belongs_to.title
-        : "no available articles for this topic!";
+      if (!articles.length) {
+        return null;
+      }
+      const topicTitle = articles[0].belongs_to.title;
       return (
         <div className="container">
           <h3>
             All articles for: {"  "}
-            {title}
+            {topicTitle}
           </h3>
           <Article.List
             {...this.props}

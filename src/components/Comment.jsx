@@ -1,17 +1,7 @@
 import React, { Component } from "react";
+import PT from "prop-types";
 
 const Comment = {
-  Page: class CommentsPage extends Component {
-    render() {
-      return (
-        <div>
-          <button className="btn btn-light">write comment</button>
-          <Comment.List />
-        </div>
-      );
-    }
-  },
-
   List: function List({ articleComments, voteOnComment }) {
     return (
       <div className="container">
@@ -85,6 +75,16 @@ const Comment = {
       </div>
     );
   }
+};
+
+Comment.List.propTypes = {
+  articleComments: PT.array,
+  voteOnComment: PT.func
+};
+
+Comment.Item.propTypes = {
+  comment: PT.object,
+  voteOnComment: PT.func
 };
 
 export default Comment;

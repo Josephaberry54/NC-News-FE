@@ -62,7 +62,7 @@ const Article = {
 
           <div className="container">
             <h3>Popular Articles</h3>
-            {!articles.length && <p>No articles to display</p>}
+            {!articles.length && <p>Loading</p>}
             <Article.List
               articles={articles}
               voteOnArticle={this.voteOnArticle}
@@ -127,6 +127,14 @@ const Article = {
       });
     };
 
+    updateComments = comment => {
+      const updatedComments = [...this.state.articleComments, comment];
+      const newState = produce(this.state, draft => {
+        draft.articleComments = updatedComments;
+      });
+      this.setState(newState);
+    };
+
     render() {
       const { article, articleComments } = this.state;
       return (
@@ -135,6 +143,7 @@ const Article = {
           article={article}
           articleComments={articleComments}
           voteOnComment={this.voteOnComment}
+          updateComments={this.updateComments}
         />
       );
     }
@@ -150,9 +159,11 @@ const Article = {
       this.setState({ newComment });
     };
 
+    triggerUpdateComments = comment => {
+      this.props.updateComments(comment);
+    };
+
     handleClick({ newComment }, props) {
-      console.log(newComment);
-      console.log(props);
       const { _id } = props.article;
       const MY_USER_ID = "5aabf9e8630d476aa2c3ad9e";
       const comment = {
@@ -160,7 +171,14 @@ const Article = {
         belongs_to: _id,
         created_by: MY_USER_ID
       };
-      postCommentToArticle(_id, comment).then(comment => console.log(comment));
+      postCommentToArticle(_id, comment).then(comment =>
+        this.triggerUpdateComments(comment)
+      );
+      this.setState(
+        produce(draft => {
+          draft.newComment = "";
+        })
+      );
     }
 
     render() {
@@ -327,8 +345,15 @@ const Article = {
   }
 };
 
-Article.List.propTypes = {
+Article.ListWrapper.propTypes = {
   articles: PT.array
+};
+Article.PageWrapper.propTypes = {
+  articles: PT.array
+};
+Article.List.propTypes = {
+  articles: PT.array,
+  voteOnArticle: PT.func
 };
 Article.Item.propTypes = {
   article: PT.object

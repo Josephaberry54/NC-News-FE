@@ -1,6 +1,6 @@
-const axios = require("axios");
+const axios = require('axios');
 
-const SERVER_URL = "https://arcane-peak-29702.herokuapp.com/api";
+const SERVER_URL = 'https://arcane-peak-29702.herokuapp.com/api';
 
 const API = {
   fetchTopicsArticles: function(path) {

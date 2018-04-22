@@ -3,7 +3,7 @@ import PT from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const Comment = {
-  List: function List({ articleComments, voteOnComment }) {
+  List: function List({ articleComments, voteOnComment, deleteComment }) {
     return (
       <div className="container">
         {articleComments.map(comment => {
@@ -12,6 +12,7 @@ const Comment = {
               key={comment._id}
               comment={comment}
               voteOnComment={voteOnComment}
+              deleteComment={deleteComment}
             />
           );
         })}
@@ -19,7 +20,7 @@ const Comment = {
     );
   },
 
-  Item: function Item({ comment, voteOnComment }) {
+  Item: function Item({ comment, voteOnComment, deleteComment }) {
     function handleClick(e) {
       const { _id } = comment;
       let voteDirection;
@@ -29,13 +30,28 @@ const Comment = {
       voteOnComment(_id, voteDirection);
     }
 
-    const { body, created_at, created_by, votes, _id, votedOn } = comment;
+    function handleDelete(_id) {
+      deleteComment(_id);
+    }
+
+    const { body, created_at, created_by, votes, _id } = comment;
     return (
-      <div className="list-group-item list-group-item-action d-flex" key={_id}>
+      <div
+        className="list-group-item list-group-item-action d-flex row"
+        key={_id}
+      >
+        <div className="col-12">
+          <button
+            type="button"
+            className={`close offset-11 col-1`}
+            onClick={() => handleDelete(_id)}
+          >
+            &times;
+          </button>
+        </div>
         <div className="col-2">
           <div className="row">
             <button
-              disabled={votedOn}
               className="voteUp btn btn-light btn-outline-secondary btn-block"
               onClick={handleClick}
             >
@@ -47,7 +63,6 @@ const Comment = {
           </div>
           <div className="row">
             <button
-              disabled={votedOn}
               className="voteDown btn btn-light btn-outline-secondary btn-block"
               onClick={handleClick}
             >
@@ -55,6 +70,7 @@ const Comment = {
             </button>
           </div>
         </div>
+
         <div className="col-10">
           <div className="row">
             <div className="col-12">

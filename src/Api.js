@@ -49,6 +49,12 @@ const API = {
     return axios
       .post(`${SERVER_URL}/articles/${articleId}/comments`, comment)
       .then(({ data }) => data.commentDoc);
+  },
+
+  deleteCommentById: function(comment_id) {
+    return axios
+      .delete(`${SERVER_URL}/comments/${comment_id}`)
+      .then(({ data }) => data);
   }
 };
 

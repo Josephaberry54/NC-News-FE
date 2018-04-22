@@ -5,7 +5,8 @@ import {
   putVoteOnArticle,
   fetchComments,
   putVoteOnComment,
-  postCommentToArticle
+  postCommentToArticle,
+  deleteCommentById
 } from '../Api';
 import Comment from './Comment';
 import Search from './Search';
@@ -131,6 +132,18 @@ const Article = {
       this.setState(newState);
     };
 
+    deleteComment = comment_id => {
+      deleteCommentById(comment_id).then(deletedComment => {
+        const newState = produce(this.state, draft => {
+          draft.articleComments = draft.articleComments.filter(comment => {
+            const { _id } = comment;
+            return _id !== comment_id;
+          });
+        });
+        this.setState(newState);
+      });
+    };
+
     render() {
       const { article, articleComments } = this.state;
       return (
@@ -140,6 +153,7 @@ const Article = {
           articleComments={articleComments}
           voteOnComment={this.voteOnComment}
           updateComments={this.updateComments}
+          deleteComment={this.deleteComment}
         />
       );
     }
@@ -182,7 +196,8 @@ const Article = {
         match: { path, url },
         article: { title, body, created_by, votes, comments },
         articleComments,
-        voteOnComment
+        voteOnComment,
+        deleteComment
       } = this.props;
       return (
         <div className="row">
@@ -249,6 +264,7 @@ const Article = {
                   <Comment.List
                     articleComments={articleComments}
                     voteOnComment={voteOnComment}
+                    deleteComment={deleteComment}
                   />
                 </React.Fragment>
               );

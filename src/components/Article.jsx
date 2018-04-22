@@ -186,7 +186,7 @@ const Article = {
       } = this.props;
       return (
         <div className="row">
-          <div className="col-2">
+          <div className="col-sm-2">
             <div>
               <button
                 className="voteUp btn btn-light btn-outline-secondary btn-block"
@@ -207,17 +207,25 @@ const Article = {
               </button>
             </div>
           </div>
-          <div className="col-10">
+          <div className="col-sm-10">
             <h5>{title}</h5>
             <p>{body}</p>
-            <Link to={`/users/${created_by._id}`}>
-              created by: {created_by.username}
-            </Link>
-            <Link to={`${url}/comments`}>comments:{comments}</Link>
-          </div>
-          <div className="container">
             <div className="row">
-              <div className="input-group mb-3">
+              <div className="col-sm-6">
+                <span>created by: {'   '}</span>
+                <Link to={`/users/${created_by._id}`}>
+                  {created_by.username}
+                </Link>
+              </div>
+              <div className="col-sm-6">
+                <span>comments: {'   '}</span>
+                <Link to={`${url}/comments`}>{comments}</Link>
+              </div>
+            </div>
+          </div>
+          <div className="container-fluid">
+            <div className="row">
+              <div className="input-group mb-3 col">
                 <input
                   className="form-control"
                   onChange={this.handleChange}
@@ -295,10 +303,10 @@ const Article = {
       const ID = created_by._id;
       return (
         <div className="list-group-item list-group-item-action d-flex row py1 ">
-          <div className="col-2">
+          <div className="col-xs-2">
             <div>
               <button
-                className="voteUp btn btn-light btn-outline-secondary btn-block"
+                className="voteUp btn btn-light btn-outline-secondary btn-block no-gutter"
                 onClick={this.handleClick}
               >
                 <i className="fas fa-chevron-up" />

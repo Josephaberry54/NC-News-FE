@@ -1,17 +1,19 @@
-import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import "./App.css";
-import Navigation from "./components/Navigation";
-import Users from "./components/Users";
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import './App.css';
 
-import Topic from "./components/Topic";
-import Article from "./components/Article";
+import Header from './components/Header';
+import Navigation from './components/Navigation';
+import Users from './components/Users';
+import Topic from './components/Topic';
+import Article from './components/Article';
 
 class App extends Component {
   render() {
     return (
       <Router>
         <div>
+          <Header />
           <Navigation />
           <Switch>
             <Route exact path="/" component={Article.ListWrapper} />

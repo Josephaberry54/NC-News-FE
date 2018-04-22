@@ -15,38 +15,74 @@ class Navigation extends Component {
   setNavBarTopics(topics) {
     const maxTopicsForNavBar = 5;
     const navBarLinkTopics = topics.slice(0, maxTopicsForNavBar);
-    // const navBarLinkTopicNames = navBarTopics.map(topic => topic.title);
     this.setState({ navBarLinkTopics });
   }
 
+  // <Link
+  //             className="flex-sm-fill text-sm-center nav-link active text-info"
+  //             to="/"
+  //           >
+  //             Northcoders News
+  //           </Link>
+
   render() {
     return (
-      <nav className="navbar navbar-inverse bg-inverse  container-fluid">
-        <div className="row">
-          <Link className="navbar-brand text-info" to="/">
-            <h1 className="display-1">Northcoders News</h1>
-          </Link>
-        </div>
-        <div className="row justify-content-end ">
-          <NavLink to="/search/topics" className="nav-link text-white">
-            All topics
+      <div>
+        {/* <Header /> */}
+        <nav className="nav flex-column flex-sm-row bg-light">
+          <NavLink
+            to="/"
+            className="flex-sm-fill text-sm-center nav-link active text-info"
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/search/topics"
+            className="flex-sm-fill text-sm-center nav-link active text-info"
+          >
+            All Topics
+          </NavLink>
+          <NavLink
+            className="flex-sm-fill text-sm-center nav-link active text-info"
+            to="/users"
+          >
+            Users
           </NavLink>
           {this.state.navBarLinkTopics.map(topic => (
             <NavBarTopicLink key={topic._id} topic={topic} />
           ))}
-          <NavLink className="nav-link" to="/users">
-            Users
-          </NavLink>
-        </div>
-      </nav>
+        </nav>
+      </div>
     );
   }
+
+  // render() {
+  //   return (
+  //     <nav className="navbar navbar-inverse bg-inverse  container-fluid">
+  //       <div className="row">
+  //         <div className="col-xl-6">
+  //           <div className="row justify-content-center" />
+  //         </div>
+  //         <div className="col-xl-6">
+  //           <div className="row justify-content-center">
+  //             {this.state.navBarLinkTopics.map(topic => (
+  //               <NavBarTopicLink key={topic._id} topic={topic} />
+  //             ))}
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </nav>
+  //   );
+  // }
 }
 
 const NavBarTopicLink = ({ topic }) => {
   const { title, _id } = topic;
   return (
-    <NavLink className="nav-link" to={`/topics/${_id}`}>
+    <NavLink
+      className="flex-sm-fill text-sm-center nav-link active text-info d-none d-sm-block"
+      to={`/topics/${_id}`}
+    >
       {title}
     </NavLink>
   );

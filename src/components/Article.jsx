@@ -323,14 +323,17 @@ const Article = {
               </div>
             </div>
             <div className="row">
-              <div className="col-6">
+              <div className="col-12">
                 <span>created by:{'  '} </span>
                 <Link to={`/users/${ID}`}>{created_by.username}</Link>
               </div>
-              <div className="col-6">
-                <Link to={`/article/${article_id}/comments`}>comments</Link>
-                {'  '}
-                <span className="badge badge-primary">{comments}</span>
+            </div>
+            <div className="row">
+              <div className="col-12">
+                <span>comments: {'  '}</span>
+                <Link to={`/article/${article_id}/comments`}>
+                  <span className="badge badge-primary">{comments}</span>
+                </Link>
               </div>
             </div>
           </div>

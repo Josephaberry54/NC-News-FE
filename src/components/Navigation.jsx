@@ -1,8 +1,7 @@
-import React, { Component } from "react";
-import { Link, NavLink } from "react-router-dom";
-import { fetchData } from "../Api";
-import logo from "../logo.png";
-import PT from "prop-types";
+import React, { Component } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { fetchData } from '../Api';
+import PT from 'prop-types';
 
 class Navigation extends Component {
   state = {
@@ -10,7 +9,7 @@ class Navigation extends Component {
   };
 
   componentDidMount() {
-    fetchData("topics").then(topics => this.setNavBarTopics(topics));
+    fetchData('topics').then(topics => this.setNavBarTopics(topics));
   }
 
   setNavBarTopics(topics) {

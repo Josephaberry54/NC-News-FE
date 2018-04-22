@@ -1,10 +1,9 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import Article from "./Article";
-import Search from "./Search";
-import { fetchData, fetchTopicsArticles, putVoteOnArticle } from "../Api";
-import produce from "immer";
-import PT from "prop-types";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+import Article from './Article';
+import { fetchData, fetchTopicsArticles, putVoteOnArticle } from '../Api';
+import produce from 'immer';
+import PT from 'prop-types';
 
 const Topic = {
   ListWrapper: class ListWrapper extends Component {
@@ -13,7 +12,7 @@ const Topic = {
     };
 
     componentDidMount = () => {
-      fetchData("topics").then(topics => this.setAllTopics(topics));
+      fetchData('topics').then(topics => this.setAllTopics(topics));
     };
 
     setAllTopics = topics => {
@@ -84,7 +83,7 @@ const Topic = {
 
   Page: class Page extends Component {
     render() {
-      const { articles, voteOnArticle, topicId } = this.props;
+      const { articles, voteOnArticle } = this.props;
       if (!articles.length) {
         return null;
       }
@@ -92,7 +91,7 @@ const Topic = {
       return (
         <div className="container">
           <h3>
-            All articles for: {"  "}
+            All articles for: {'  '}
             {topicTitle}
           </h3>
           <Article.List

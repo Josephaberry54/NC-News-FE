@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PT from 'prop-types';
 
 const Comment = {
@@ -38,7 +38,7 @@ const Comment = {
               className="voteUp btn btn-light btn-outline-secondary btn-block"
               onClick={handleClick}
             >
-              <i class="fas fa-chevron-up" />
+              <i className="fas fa-chevron-up" />
             </button>
           </div>
           <div className="text-center">
@@ -50,7 +50,7 @@ const Comment = {
               className="voteDown btn btn-light btn-outline-secondary btn-block"
               onClick={handleClick}
             >
-              <i class="fas fa-chevron-down" />
+              <i className="fas fa-chevron-down" />
             </button>
           </div>
         </div>

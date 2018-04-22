@@ -28,7 +28,6 @@ const Article = {
         const { title, body } = article;
         return title.includes(searchInput) || body.includes(searchInput);
       });
-      console.log(filteredArticles);
       this.setState(
         produce(draft => {
           draft.articles = filteredArticles;
@@ -38,15 +37,13 @@ const Article = {
 
     voteOnArticle = (article_id, voteDirection) => {
       putVoteOnArticle(article_id, voteDirection).then(resultArticle => {
-        resultArticle.votedOn = true;
+        const { votes } = resultArticle;
         const newState = produce(this.state, draft => {
           draft.articles = draft.articles.map(article => {
             if (article._id === article_id) {
-              console.log(resultArticle);
-              return resultArticle;
-            } else {
-              return article;
+              article.votes = votes;
             }
+            return article;
           });
         });
         this.setState(newState);
@@ -98,14 +95,13 @@ const Article = {
 
     voteOnComment = (comment_id, voteDirection) => {
       putVoteOnComment(comment_id, voteDirection).then(resultComment => {
-        resultComment.votedOn = true;
         const newState = produce(this.state, draft => {
           draft.articleComments = draft.articleComments.map(comment => {
-            if (comment._id === comment_id) {
-              return resultComment;
-            } else {
-              return comment;
+            const { _id, votes } = resultComment;
+            if (_id === comment_id) {
+              comment.votes = votes;
             }
+            return comment;
           });
         });
         this.setState(newState);
@@ -114,7 +110,6 @@ const Article = {
 
     voteOnArticle = (article_id, voteDirection) => {
       putVoteOnArticle(article_id, voteDirection).then(resultArticle => {
-        resultArticle.votedOn = true;
         const newState = produce(this.state, draft => {
           draft.articles = draft.articles.map(article => {
             if (article._id === article_id) {
@@ -185,7 +180,7 @@ const Article = {
     render() {
       const {
         match: { path, url },
-        article: { title, body, created_by, votes, comments, votedOn },
+        article: { title, body, created_by, votes, comments },
         articleComments,
         voteOnComment
       } = this.props;
@@ -194,7 +189,6 @@ const Article = {
           <div className="col-2">
             <div>
               <button
-                disabled={votedOn}
                 className="voteUp btn btn-light btn-outline-secondary btn-block"
                 onClick={this.handleClick}
               >
@@ -206,7 +200,6 @@ const Article = {
             </div>
             <div>
               <button
-                disabled={votedOn}
                 className="voteDown btn btn-light btn-outline-secondary btn-block"
                 onClick={this.handleClick}
               >
@@ -296,8 +289,7 @@ const Article = {
         comments,
         _id: article_id,
         created_by,
-        votes,
-        votedOn
+        votes
       } = this.props.article;
 
       const ID = created_by._id;
@@ -306,7 +298,6 @@ const Article = {
           <div className="col-2">
             <div>
               <button
-                disabled={votedOn}
                 className="voteUp btn btn-light btn-outline-secondary btn-block"
                 onClick={this.handleClick}
               >
@@ -318,7 +309,6 @@ const Article = {
             </div>
             <div>
               <button
-                disabled={votedOn}
                 className="voteDown btn btn-light btn-outline-secondary btn-block"
                 onClick={this.handleClick}
               >

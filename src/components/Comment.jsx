@@ -1,5 +1,6 @@
 import React from 'react';
 import PT from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const Comment = {
   List: function List({ articleComments, voteOnComment }) {
@@ -29,6 +30,7 @@ const Comment = {
     }
 
     const { body, created_at, created_by, votes, _id, votedOn } = comment;
+    console.log(created_by);
     return (
       <div className="list-group-item list-group-item-action d-flex" key={_id}>
         <div className="col-2">
@@ -61,15 +63,17 @@ const Comment = {
             </div>
           </div>
           <div className="row">
-            <div className="col-6">
-              <h5>
+            <div className="col-12">
+              <p>
                 created on:{'  '} {new Date(created_at).toDateString()}
-              </h5>
+              </p>
             </div>
-            <div className="col-6">
-              <h5>
-                created by:{'  '} {created_by.username}
-              </h5>
+          </div>
+          <div className="row">
+            <div className="col-12">
+              <span>created by:{'  '} </span>
+
+              <Link to={`/users/${created_by._id}`}>{created_by.username}</Link>
             </div>
           </div>
         </div>

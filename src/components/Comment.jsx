@@ -30,7 +30,6 @@ const Comment = {
     }
 
     const { body, created_at, created_by, votes, _id, votedOn } = comment;
-    console.log(created_by);
     return (
       <div className="list-group-item list-group-item-action d-flex" key={_id}>
         <div className="col-2">

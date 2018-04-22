@@ -113,11 +113,11 @@ const Article = {
       putVoteOnArticle(article_id, voteDirection).then(resultArticle => {
         const newState = produce(this.state, draft => {
           draft.articles = draft.articles.map(article => {
-            if (article._id === article_id) {
-              return resultArticle;
-            } else {
-              return article;
+            const { _id, votes } = resultArticle;
+            if (_id === article_id) {
+              article.votes = votes;
             }
+            return article;
           });
         });
         this.setState(newState);

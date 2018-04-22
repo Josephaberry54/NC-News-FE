@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import PT from "prop-types";
+import React, { Component } from 'react';
+import PT from 'prop-types';
 
 const Comment = {
   List: function List({ articleComments, voteOnComment }) {
@@ -22,8 +22,9 @@ const Comment = {
     function handleClick(e) {
       const { _id } = comment;
       let voteDirection;
-      if (e.target.className.includes("voteUp")) voteDirection = "up";
-      if (e.target.className.includes("voteDown")) voteDirection = "down";
+      if (e.currentTarget.className.includes('voteUp')) voteDirection = 'up';
+      if (e.currentTarget.className.includes('voteDown'))
+        voteDirection = 'down';
       voteOnComment(_id, voteDirection);
     }
 
@@ -62,12 +63,12 @@ const Comment = {
           <div className="row">
             <div className="col-6">
               <h5>
-                created on:{"  "} {new Date(created_at).toDateString()}
+                created on:{'  '} {new Date(created_at).toDateString()}
               </h5>
             </div>
             <div className="col-6">
               <h5>
-                created by:{"  "} {created_by.username}
+                created by:{'  '} {created_by.username}
               </h5>
             </div>
           </div>

@@ -1,22 +1,22 @@
-import React, { Component } from "react";
-import { Link, Route } from "react-router-dom";
+import React, { Component } from 'react';
+import { Link, Route } from 'react-router-dom';
 import {
   fetchArticles,
   putVoteOnArticle,
   fetchComments,
   putVoteOnComment,
   postCommentToArticle
-} from "../Api";
-import Comment from "./Comment";
-import Search from "./Search";
-import produce from "immer";
-import PT from "prop-types";
+} from '../Api';
+import Comment from './Comment';
+import Search from './Search';
+import produce from 'immer';
+import PT from 'prop-types';
 
 const Article = {
   ListWrapper: class ListWrapper extends Component {
     state = {
       articles: [],
-      searchInput: ""
+      searchInput: ''
     };
 
     componentDidMount() {
@@ -42,6 +42,7 @@ const Article = {
         const newState = produce(this.state, draft => {
           draft.articles = draft.articles.map(article => {
             if (article._id === article_id) {
+              console.log(resultArticle);
               return resultArticle;
             } else {
               return article;
@@ -151,7 +152,7 @@ const Article = {
 
   Page: class Page extends Component {
     state = {
-      newComment: ""
+      newComment: ''
     };
 
     handleChange = e => {
@@ -165,7 +166,7 @@ const Article = {
 
     handleClick({ newComment }, props) {
       const { _id } = props.article;
-      const MY_USER_ID = "5aabf9e8630d476aa2c3ad9e";
+      const MY_USER_ID = '5aabf9e8630d476aa2c3ad9e';
       const comment = {
         comment: newComment,
         belongs_to: _id,
@@ -176,7 +177,7 @@ const Article = {
       );
       this.setState(
         produce(draft => {
-          draft.newComment = "";
+          draft.newComment = '';
         })
       );
     }
@@ -278,10 +279,14 @@ const Article = {
 
   Item: class Item extends Component {
     handleClick = e => {
-      const { article: { _id }, voteOnArticle } = this.props;
+      const {
+        article: { _id },
+        voteOnArticle
+      } = this.props;
       let voteDirection;
-      if (e.target.className.includes("voteUp")) voteDirection = "up";
-      if (e.target.className.includes("voteDown")) voteDirection = "down";
+      if (e.currentTarget.className.includes('voteUp')) voteDirection = 'up';
+      if (e.currentTarget.className.includes('voteDown'))
+        voteDirection = 'down';
       voteOnArticle(_id, voteDirection);
     };
 
@@ -329,12 +334,12 @@ const Article = {
             </div>
             <div className="row">
               <div className="col-6">
-                <span>created by:{"  "} </span>
+                <span>created by:{'  '} </span>
                 <Link to={`/users/${ID}`}>{created_by.username}</Link>
               </div>
               <div className="col-6">
                 <Link to={`/article/${article_id}/comments`}>comments</Link>
-                {"  "}
+                {'  '}
                 <span className="badge badge-primary">{comments}</span>
               </div>
             </div>
@@ -362,8 +367,8 @@ Article.Item.propTypes = {
 Article.List.defaultProps = {
   articles: [
     {
-      _id: "",
-      title: "",
+      _id: '',
+      title: '',
       comments: 0,
       created_by: {},
       votes: 0
@@ -372,8 +377,8 @@ Article.List.defaultProps = {
 };
 Article.Item.defaultProps = {
   article: {
-    _id: "",
-    title: "",
+    _id: '',
+    title: '',
     comments: 0,
     created_by: {},
     votes: 0

@@ -18,7 +18,6 @@ const API = {
   },
 
   putVoteOnArticle: function(article_id, voteDirection) {
-    //path should be articles/:articles_id?vote=up
     return axios
       .put(`${SERVER_URL}/articles/${article_id}?vote=${voteDirection}`)
       .then(({ data }) => data);
@@ -34,7 +33,6 @@ const API = {
     return axios
       .get(`${SERVER_URL}/articles/${articleId}/comments`)
       .then(({ data }) => data.comments);
-    // path should be articles/:article_id/comments
   },
 
   fetchAllUsers: function() {
@@ -48,8 +46,6 @@ const API = {
   },
 
   postCommentToArticle: function(articleId, comment) {
-    // path should be /articles/:article_id/comments
-
     return axios
       .post(`${SERVER_URL}/articles/${articleId}/comments`, comment)
       .then(({ data }) => data.commentDoc);

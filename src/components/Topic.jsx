@@ -22,7 +22,7 @@ const Topic = {
     render() {
       return (
         <React.Fragment>
-          <div className="container">
+          <div className="container-fluid">
             <h3>All Topics</h3>
             <Topic.List topics={this.state.topics} />
           </div>

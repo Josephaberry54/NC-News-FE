@@ -22,3 +22,11 @@ h1 {
   font-size: 0.8em;
   padding-bottom: 0;
 }
+
+.list-group-item {
+  background-color: blue;
+}
+
+form {
+  margin-top: 0.8em;
+}

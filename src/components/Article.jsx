@@ -125,6 +125,7 @@ const Article = {
     };
 
     updateComments = comment => {
+      console.log(comment);
       const updatedComments = [...this.state.articleComments, comment];
       const newState = produce(this.state, draft => {
         draft.articleComments = updatedComments;
@@ -318,7 +319,7 @@ const Article = {
 
       const ID = created_by._id;
       return (
-        <div className="list-group-item list-group-item-action d-flex row py1 ">
+        <div className="list-group-item list-group-item-action d-flex row py1">
           <div className="col-xs-2">
             <div>
               <button

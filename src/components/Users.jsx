@@ -1,6 +1,13 @@
-import React, { Component } from "react";
-import { fetchAllUsers, fetchUserById } from "../Api";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import {
+  fetchAllUsers,
+  fetchUserById,
+  fetchArticles,
+  putVoteOnArticle
+} from '../Api';
+import { Link } from 'react-router-dom';
+import Article from './Article';
+import produce from 'immer';
 
 const Users = {
   ListWrapper: class ListWrapper extends Component {
@@ -46,6 +53,10 @@ const Users = {
                 height="auto"
                 src={avatar_url}
                 alt={username}
+                onError={e => {
+                  e.target.src =
+                    'https://keypointintelligence.com/img/anonymous.png';
+                }}
               />
             </div>
             <div className="col-6">
@@ -65,13 +76,37 @@ const Users = {
 
   Page: class Page extends Component {
     state = {
-      user: {}
+      user: {},
+      articles: []
     };
     componentDidMount() {
       fetchUserById(this.props.match.params.user_id).then(user =>
         this.setState({ user })
       );
+
+      fetchArticles().then(articles => {
+        const userArticles = articles.filter(
+          article => article.created_by._id === this.props.match.params.user_id
+        );
+        this.setState({ articles: userArticles });
+      });
     }
+
+    voteOnArticle = (article_id, voteDirection) => {
+      putVoteOnArticle(article_id, voteDirection).then(resultArticle => {
+        const { votes } = resultArticle;
+        const newState = produce(this.state, draft => {
+          draft.articles = draft.articles.map(article => {
+            if (article._id === article_id) {
+              article.votes = votes;
+            }
+            return article;
+          });
+        });
+        this.setState(newState);
+      });
+    };
+
     render() {
       const { avatar_url, name, username } = this.state.user;
 
@@ -85,6 +120,10 @@ const Users = {
                 height="auto"
                 src={avatar_url}
                 alt={username}
+                onError={e => {
+                  e.target.src =
+                    'https://keypointintelligence.com/img/anonymous.png';
+                }}
               />
             </div>
             <div className=" col-9">
@@ -96,6 +135,10 @@ const Users = {
               </div>
             </div>
           </div>
+          <Article.List
+            articles={this.state.articles}
+            voteOnArticle={this.voteOnArticle}
+          />
         </div>
       );
     }

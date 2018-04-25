@@ -24,7 +24,7 @@ git --version
 Clone my repository
 
 ```
-git clone <placeholder>
+git clone https://github.com/Josephaberry54/NC-News-FE
 ```
 
 Navigate in to the cloned repository using the cd command and then install all the dependencies:
